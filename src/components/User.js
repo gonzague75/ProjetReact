@@ -2,47 +2,75 @@ import React, { Component } from "react";
 import "../styles/User.css";
 
 
-class User extends Component {
+class User extends Component{
 
-  state = {
-    post: {}
+  constructor(props){
+
+      super(props);
+      this.state = {
+          items: [],
+          isLoaded: false,
+
+      }
   }
 
   componentDidMount(){
-    fetch('https://jsonplaceholder.typicode.com/users/1')
-    .then((response)=>{
-      return response.json()
-    })
-
-    .then((result)=>{
-      setTimeout(()=>{
-        this.setState({post: result})
-        },1500);
-      
-    })
+      fetch('https://jsonplaceholder.typicode.com/users/')
+      .then(response => response.json())
+      .then(json => {
+          this.setState({
+              isLoaded: true,
+              items: json,
+          })
+      })
   }
 
   render(){
 
-    const { post } = this.state;
+      var {isLoaded, items}=this.state;
+          
+          if (!isLoaded){
+              return <div>Chargement...</div>;
+          }
 
-    return (
-      <div className="Contact">
-        
-        <b>Nom : </b>{(post.name) ? post.name : <p>Chargement...</p>}
-        <br />
-        <b>Username : </b>{post.username}
-        <br />
-        <b>Email : </b>{post.email}
-        <br />
-        <b>Telephone : </b>{post.phone}
-        <br />
-        <b>Site Web : </b>{post.website}
-        
-      </div>
+          else {
 
-    );
-  }
+              return (
+                  <div className="Fruits">
+
+                    <ul>
+                        {items.map(item => (
+                            <li key={item.id}>
+
+                            Nom : {item.name} Email : {item.email} Adresse : {item.address.geo.lat}
+                            
+                            </li>                                
+                        ))}
+                    </ul>
+                    
+                  </div>             
+                );
+          }  
+    }
 }
 
 export default User;
+
+
+/*
+
+---------NE PAS SUPPRIMER---------
+
+componentDidMount(){
+  fetch('https://jsonplaceholder.typicode.com/users/1')
+  .then((response)=>{
+    return response.json()
+  })
+
+  .then((result)=>{
+    setTimeout(()=>{
+      this.setState({post: result})
+      },1500);
+    
+  })
+}*/

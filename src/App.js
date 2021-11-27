@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import About from "./pages/About";
 import User from "./components/User";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
